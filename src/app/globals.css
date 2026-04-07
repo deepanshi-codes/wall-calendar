@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cal-bg: #f5f4f0;
+  --cal-card: #ffffff;
+  --cal-text: #1a1a1a;
+  --cal-muted: #6b7280;
+  --cal-border: #e5e2d9;
+  --cal-blue: #1a6fc4;
+  --cal-blue-light: #e8f2fc;
+  --cal-range: #daeaf8;
+  --cal-sat: #dc2626;
+  --cal-sun: #dc2626;
+  --cal-today: #fef9c3;
+  --cal-note-bg: #f9f8f5;
+  --cal-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.dark {
+  --cal-bg: #141418;
+  --cal-card: #1e1e26;
+  --cal-text: #e8e6e0;
+  --cal-muted: #9ca3af;
+  --cal-border: #2e2e38;
+  --cal-blue: #4fa3e8;
+  --cal-blue-light: #0d2540;
+  --cal-range: #0d2540;
+  --cal-sat: #f87171;
+  --cal-sun: #f87171;
+  --cal-today: #2d2a1a;
+  --cal-note-bg: #17171f;
+  --cal-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--cal-bg);
+  color: var(--cal-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Calendar grid cells */
+.day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 9px;
+  font-size: 13px;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.day-cell:hover:not(.empty):not(.other-month) {
+  background: var(--cal-blue-light);
+}
+
+.day-cell.other-month {
+  color: #aaa;
+  cursor: pointer;
+  opacity: 0.45;
+}
+
+.day-cell.today {
+  background: var(--cal-today);
+  font-weight: 600;
+}
+
+.day-cell.in-range {
+  background: var(--cal-range) !important;
+  border-radius: 0;
+  color: var(--cal-text);
+}
+
+.day-cell.range-start {
+  background: var(--cal-blue) !important;
+  color: #fff !important;
+  border-radius: 8px 0 0 8px;
+}
+
+.day-cell.range-end {
+  background: var(--cal-blue) !important;
+  color: #fff !important;
+  border-radius: 0 8px 8px 0;
+}
+
+.day-cell.range-start.range-end {
+  border-radius: 8px !important;
+}
+
+.day-cell.has-note::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--cal-blue);
+}
+
+.day-cell.range-start.has-note::after,
+.day-cell.range-end.has-note::after {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Note textarea lines */
+.note-line {
+  border: none;
+  border-bottom: 1.5px solid var(--cal-border);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--cal-text);
+  padding: 6px 2px;
+  width: 100%;
+  outline: none;
+  resize: none;
+  height: 30px;
+  transition: border-color 0.2s;
+}
+
+.note-line:focus {
+  border-bottom-color: var(--cal-blue);
+}
+
+/* Ring animation */
+@keyframes ringIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ring {
+  animation: ringIn 0.4s ease both;
+}
+
+/* Hero image transition */
+.hero-img {
+  transition: opacity 0.5s ease, transform 0.6s ease;
+}
+
+.hero-img.loading {
+  opacity: 0;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--cal-border); border-radius: 3px; }
